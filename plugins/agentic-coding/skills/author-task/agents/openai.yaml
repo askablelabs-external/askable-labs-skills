@@ -1,0 +1,4 @@
+interface:
+  display_name: "Author an Agentic Coding Task"
+  short_description: "Set up and author an Askable agentic coding task"
+  default_prompt: "Use $author-task to pick up my Askable agentic coding task where it stands."

@@ -1,0 +1,7 @@
+{
+  "name": "agentic-coding",
+  "version": "0.1.0",
+  "description": "Set up your workspace and author Askable agentic coding tasks, with guidance on what makes a task land.",
+  "author": { "name": "Askable" },
+  "skills": "./skills/"
+}

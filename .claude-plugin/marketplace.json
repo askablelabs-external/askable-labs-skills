@@ -1,0 +1,14 @@
+{
+  "name": "askable-labs",
+  "description": "Skills for engineers authoring agentic coding tasks with Askable Labs.",
+  "owner": { "name": "Askable" },
+  "plugins": [
+    {
+      "name": "agentic-coding",
+      "source": "./plugins/agentic-coding",
+      "description": "Set up your workspace and author Askable agentic coding tasks, with guidance on what makes a task land.",
+      "version": "0.1.0",
+      "category": "development"
+    }
+  ]
+}
