@@ -35,9 +35,13 @@ Every item serves one question: **when a strong model fails this task, is it bec
 
 ## Reviewing a version
 
-Ask the engineer to choose one requirement, show where the solver can discover it, and explain how their check distinguishes their reference solution from their plausible wrong fix. Use the engineer’s own cases and expected results.
+Inspect the current version using the engineer’s brief, checks, variants and run output. Do the file reading and local verification yourself. Ask the engineer when the evidence leaves an intent or expected result unclear.
 
-Look at the local run output together. Did the check reach the behaviour the engineer meant to test? If it stopped during setup, that requirement is still unverified. For a discrepancy, record what the engineer expected and what actually happened.
+1. Read each behaviour promised in the brief and locate the assertion that exercises it. Follow shared test helpers to the comparison they actually make. Flag a promise with no matching assertion. In the other direction, flag an asserted value or restriction whose source you cannot locate in the brief or the solver-visible repository. Cite both sides when they disagree.
+2. Compare the reference solution and the engineer’s existing plausible wrong fixes against their expected outcomes. Use results from this version or run the relevant local checks. For each wrong fix, inspect the failure output: did the intended assertion run? A failure during setup leaves the behaviour unverified. If the wrong fix passes, identify which promised behaviour the check accepted. If a variant is missing, ask the engineer to supply it.
+3. Return the findings in order of consequence. For each, give the requirement, file and assertion (or missing coverage), expected and observed result, and the smallest case or command the engineer can repeat. Distinguish a reproduced mismatch from a question about intent or a check you could not run. If everything you checked agrees, say what you verified and identify any remaining gaps.
+
+On a revision, start with the engineer’s original failing case, then recheck the requirements affected by the diff.
 
 ## Calibration and attacks
 
@@ -81,5 +85,4 @@ To get there, reviewers run the golden on cases the brief names beyond the engin
 - **Fix the whole list.** Each version fixes every item the feedback lists, not one at a time. Versions are limited, and only failures on Askable's side are free.
 - **Keep what works.** When a version is sent back, change what was asked and leave the rest alone. Review checks that the requested fixes closed and that nothing else moved.
 - **Read the attempts.** When a version is too easy, `agentic_coding_get_submission` links each model attempt's trajectory. Read how the model solved it before changing anything. The fix is usually visible there.
-- **Verify a revision.** Repeat the engineer’s original example after the change and compare the result with the feedback.
 - **Make it harder by going deeper.** Add an invariant the brief implies and the obvious fix breaks, a guard on existing behaviour that the obvious fix breaks, or more of the cases the brief already covers. Keep every requirement stated: blurring the brief, or checking behaviour it does not imply, gets rejected.
