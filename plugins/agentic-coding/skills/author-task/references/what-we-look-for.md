@@ -26,12 +26,18 @@ Every item serves one question: **when a strong model fails this task, is it bec
 
 - **Every check follows from the brief.** A check on something the brief and repository do not imply is a hidden requirement. It gets the version rejected, and it is not the difficulty we want.
 - **Behaviour, not design.** Tests assert observable behaviour, not helper names, call order, call counts, internal tables, record layout or the golden's ordering. Ask: could a structurally different correct design pass every check? Write one and try it.
-- **Every check tells right from wrong.** The reference solution passes every check, the untouched repository fails every check, and the verdict is the same on every run (no timing, order, locale, randomness or network).
+- **Every check tells right from wrong.** Compare the reference and untouched repository with the control outcomes specified in the current project docs. Inspect which checks decided each outcome. Repeating a check on the same input should give the same verdict across timing, order and locale changes unless the brief makes one of them relevant.
 - **Scope that fits the brief.** The path allowlist admits every file a reasonable solution touches, including the small accessor or helper in a neighbouring file that a different design needs. A line cap bounds scope; it does not set difficulty. Tests count toward it, so leave room for the tests the brief asks for.
 - **Concrete judged criteria.** A `prompt` check names exactly what passes. It never penalises a change the repository's own rules require (a changelog entry, a version or copyright bump, a regenerated file), or a correct change for living in a different file than the golden's.
 - **Independent scenarios.** A suite that stops at its first failing case hides every later failure, from the engineer as much as from the review. Let each case report on its own.
 - **Requirements are enforced.** For each requirement the brief names directly, point to the test that fails the plausible wrong fix for it: symptom-only, half a fix, the hard-coded example, the wrong edge case. A requirement with no such test is a weak test, and review sends it back.
 - **Regression guards are welcome.** A check that the fix keeps behaviour the brief says must stay unchanged rewards an agent that verifies its own change. It is one of the best sources of fair difficulty.
+
+## Reviewing a version
+
+Ask the engineer to choose one requirement, show where the solver can discover it, and explain how their check distinguishes their reference solution from their plausible wrong fix. Use the engineer’s own cases and expected results.
+
+Look at the local run output together. Did the check reach the behaviour the engineer meant to test? If it stopped during setup, that requirement is still unverified. For a discrepancy, record what the engineer expected and what actually happened.
 
 ## Calibration and attacks
 
@@ -75,4 +81,5 @@ To get there, reviewers run the golden on cases the brief names beyond the engin
 - **Fix the whole list.** Each version fixes every item the feedback lists, not one at a time. Versions are limited, and only failures on Askable's side are free.
 - **Keep what works.** When a version is sent back, change what was asked and leave the rest alone. Review checks that the requested fixes closed and that nothing else moved.
 - **Read the attempts.** When a version is too easy, `agentic_coding_get_submission` links each model attempt's trajectory. Read how the model solved it before changing anything. The fix is usually visible there.
+- **Verify a revision.** Repeat the engineer’s original example after the change and compare the result with the feedback.
 - **Make it harder by going deeper.** Add an invariant the brief implies and the obvious fix breaks, a guard on existing behaviour that the obvious fix breaks, or more of the cases the brief already covers. Keep every requirement stated: blurring the brief, or checking behaviour it does not imply, gets rejected.

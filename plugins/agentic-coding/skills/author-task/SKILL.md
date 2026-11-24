@@ -1,6 +1,6 @@
 ---
 name: author-task
-description: Guide an engineer through authoring an Askable agentic coding task (Frontier code, Terminal Bench 4 or the assessment task) end to end. Use when they want to start or continue a task, set up their workspace, shape an idea, build or submit a version, upload their agent session, or read feedback on a rejected idea or version.
+description: Guide an engineer through authoring an Askable agentic coding task (Frontier code, Terminal Bench 4 or the assessment task) end to end. Use when they want to start or continue a task, set up their workspace, shape an idea, review their checks before submission, build or submit a version, upload their agent session, or read feedback on a rejected idea or version.
 ---
 
 # Authoring an agentic coding task
@@ -15,6 +15,8 @@ Live facts (limits, models, difficulty bars, required files, statuses) come from
 2. **Orient.** Read `agentic_coding_docs` topic `overview` for their project. If they have open tasks, call `agentic_coding_get_task` on the one they mean. Done when you can say in one line where the task stands and what its `nextAction` is.
 3. **Set up the session.** Once the task repository exists, the session that builds a version must be the one that submits it and uploads it, so it runs from the repository root. Follow [setup: the authoring session](references/setup.md#the-authoring-session) before the first edit. Done when this session runs from the root of a clean clone and `./setup.sh` has passed.
 4. **Work the loop.** After every action, call `agentic_coding_get_task` and follow its `nextAction`; read the docs topic its `nextKind` maps to before acting on a state you have not met. Before the engineer submits an idea or a version, walk [what we look for](references/what-we-look-for.md) for that stage with them as questions, and fix what they decide to fix. Done when the task is `pending_review`, `closed` or `abandoned`.
+
+When the engineer asks for a pre-submission review, use the [version walkthrough](references/what-we-look-for.md#reviewing-a-version) on the current version. Report what you could verify and let the engineer decide the edits.
 
 On the assessment task (`assessment_task`), the engineer's judgement is what is being assessed: every idea, wrong fix and check is theirs alone, with no exceptions.
 
