@@ -26,12 +26,22 @@ Every item serves one question: **when a strong model fails this task, is it bec
 
 - **Every check follows from the brief.** A check on something the brief and repository do not imply is a hidden requirement. It gets the version rejected, and it is not the difficulty we want.
 - **Behaviour, not design.** Tests assert observable behaviour, not helper names, call order, call counts, internal tables, record layout or the golden's ordering. Ask: could a structurally different correct design pass every check? Write one and try it.
-- **Every check tells right from wrong.** The reference solution passes every check, the untouched repository fails every check, and the verdict is the same on every run (no timing, order, locale, randomness or network).
+- **Every check tells right from wrong.** Compare the reference and untouched repository with the control outcomes specified in the current project docs. Inspect which checks decided each outcome. Repeating a check on the same input should give the same verdict across timing, order and locale changes unless the brief makes one of them relevant.
 - **Scope that fits the brief.** The path allowlist admits every file a reasonable solution touches, including the small accessor or helper in a neighbouring file that a different design needs. A line cap bounds scope; it does not set difficulty. Tests count toward it, so leave room for the tests the brief asks for.
 - **Concrete judged criteria.** A `prompt` check names exactly what passes. It never penalises a change the repository's own rules require (a changelog entry, a version or copyright bump, a regenerated file), or a correct change for living in a different file than the golden's.
 - **Independent scenarios.** A suite that stops at its first failing case hides every later failure, from the engineer as much as from the review. Let each case report on its own.
 - **Requirements are enforced.** For each requirement the brief names directly, point to the test that fails the plausible wrong fix for it: symptom-only, half a fix, the hard-coded example, the wrong edge case. A requirement with no such test is a weak test, and review sends it back.
 - **Regression guards are welcome.** A check that the fix keeps behaviour the brief says must stay unchanged rewards an agent that verifies its own change. It is one of the best sources of fair difficulty.
+
+## Reviewing a version
+
+Inspect the current version using the engineer’s brief, checks, variants and run output. Do the file reading and local verification yourself. Ask the engineer when the evidence leaves an intent or expected result unclear.
+
+1. Read each behaviour promised in the brief and locate the assertion that exercises it. Follow shared test helpers to the comparison they actually make. Flag a promise with no matching assertion. In the other direction, flag an asserted value or restriction whose source you cannot locate in the brief or the solver-visible repository. Cite both sides when they disagree.
+2. Compare the reference solution and the engineer’s existing plausible wrong fixes against their expected outcomes. Use results from this version or run the relevant local checks. For each wrong fix, inspect the failure output: did the intended assertion run? A failure during setup leaves the behaviour unverified. If the wrong fix passes, identify which promised behaviour the check accepted. If a variant is missing, ask the engineer to supply it.
+3. Return the findings in order of consequence. For each, give the requirement, file and assertion (or missing coverage), expected and observed result, and the smallest case or command the engineer can repeat. Distinguish a reproduced mismatch from a question about intent or a check you could not run. If everything you checked agrees, say what you verified and identify any remaining gaps.
+
+On a revision, start with the engineer’s original failing case, then recheck the requirements affected by the diff.
 
 ## Calibration and attacks
 
